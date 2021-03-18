@@ -23,6 +23,8 @@
 
 #include <functional>
 #include <memory>
+#include <vector>
+#include <Eigen/Dense>
 
 namespace rmf_traffic {
 namespace geometry {
@@ -43,7 +45,7 @@ public:
   /// Finalize the shape so that it can be given to a Trajectory::Profile or a
   /// Zone.
   virtual FinalShape finalize() const = 0;
-
+  
   // Abstract shape references must not be moved, because we cannot ensure that
   // they get moved into the same derived type.
   Shape(Shape&&) = delete;
@@ -83,6 +85,12 @@ public:
   /// Get the characteristic length of this FinalShape
   double get_characteristic_length() const;
 
+  /// Get the local offset of this shape
+  Eigen::Vector2d get_offset() const;
+
+  /// Check if there is a local offset for this shape
+  bool has_offset() const;
+
   virtual ~FinalShape() = default;
 
   /// Equality operator
@@ -114,6 +122,8 @@ FinalShapePtr make_final(const T& shape)
 {
   return std::make_shared<FinalShape>(shape.finalize());
 }
+
+using ShapeGroup = std::vector<FinalShapePtr>;
 
 } // namespace geometry
 } // namespace rmf_traffic

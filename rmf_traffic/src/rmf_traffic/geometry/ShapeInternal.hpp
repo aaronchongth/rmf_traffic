@@ -27,8 +27,9 @@
 #include <fcl/collision_object.h>
 #endif
 
-#include <functional>
 #include <vector>
+#include <rmf_utils/optional.hpp>
+#include <Eigen/Dense>
 
 namespace rmf_traffic {
 namespace geometry {
@@ -66,6 +67,8 @@ public:
 
   std::function<bool(const Shape& other)> _compare_equality;
 
+  rmf_utils::optional<Eigen::Vector2d> _offset;
+
   static const CollisionGeometries& get_collisions(const FinalShape& shape)
   {
     return shape._pimpl->_collisions;
@@ -82,10 +85,25 @@ public:
       Implementation{std::move(shape),
         std::move(collisions),
         std::move(characteristic_length),
-        std::move(compare_equality)});
+	std::move(compare_equality)
+	std::nullopt});
     return result;
   }
 
+  static FinalShape make_final_shape_with_offset(
+    rmf_utils::impl_ptr<const Shape> shape,
+    CollisionGeometries collisions,
+    double characteristic_length,
+    Eigen::Vector2d offset)
+  {
+    FinalShape result;
+    result._pimpl = rmf_utils::make_impl<Implementation>(
+      Implementation{std::move(shape),
+        std::move(collisions),
+        std::move(characteristic_length),
+        offset});
+    return result;
+  }
 };
 
 //==============================================================================
@@ -109,7 +127,23 @@ public:
       FinalShape::Implementation{std::move(shape),
         std::move(collisions),
         characteristic_length,
-        std::move(compare_equality)});
+        std::move(compare_equality),
+        std::nullopt});
+    return result;
+  }
+
+  static FinalConvexShape make_final_shape_with_offset(
+    rmf_utils::impl_ptr<const Shape> shape,
+    CollisionGeometries collisions,
+    double characteristic_length,
+    Eigen::Vector2d offset)
+  {
+    FinalConvexShape result;
+    result._pimpl = rmf_utils::make_impl<FinalShape::Implementation>(
+      FinalShape::Implementation{std::move(shape),
+        std::move(collisions),
+        characteristic_length,
+        offset});
     return result;
   }
 };
