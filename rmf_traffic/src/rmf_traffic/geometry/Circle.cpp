@@ -122,7 +122,8 @@ FinalConvexShape Circle::finalize_convex_with_offset(Eigen::Vector2d offset) con
 {
   return FinalConvexShape::Implementation::make_final_shape_with_offset(
     rmf_utils::make_derived_impl<const Shape, const Circle>(*this),
-    _get_internal()->make_fcl(), this->get_radius(), offset);
+    _get_internal()->make_fcl(), this->get_radius(), offset,
+    make_equality_comparator(*this));
 }
 
 } // namespace geometry

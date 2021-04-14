@@ -646,12 +646,6 @@ bool check_overlap(
     return false;
   };
 
-  auto convert = [](Eigen::Vector3d p) -> fcl::Transform3f
-  {
-    fcl::Matrix3f R;
-    R.setEulerZYX(0.0, 0.0, p[2]);
-    return fcl::Transform3f(R, fcl::Vec3f(p[0], p[1], 0.0));
-  };
   auto tx_a = convert(spline_a.compute_position(time));
   auto tx_b = convert(spline_b.compute_position(time));
   
@@ -1018,7 +1012,7 @@ bool detect_conflicts(
 #endif // NDEBUG
 
   const auto vicinity = profile.vicinity();
-  if (!vicinity)
+  if (vicinity.empty())
     return false;
 
   const Time trajectory_start_time = *trajectory.start_time();

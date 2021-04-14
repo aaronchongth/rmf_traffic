@@ -27,9 +27,9 @@
 #include <fcl/collision_object.h>
 #endif
 
-#include <vector>
-#include <rmf_utils/optional.hpp>
 #include <Eigen/Dense>
+#include <rmf_utils/optional.hpp>
+#include <vector>
 
 namespace rmf_traffic {
 namespace geometry {
@@ -65,9 +65,9 @@ public:
 
   double _characteristic_length;
 
-  std::function<bool(const Shape& other)> _compare_equality;
-
   rmf_utils::optional<Eigen::Vector2d> _offset;
+
+  std::function<bool(const Shape& other)> _compare_equality;
 
   static const CollisionGeometries& get_collisions(const FinalShape& shape)
   {
@@ -85,8 +85,8 @@ public:
       Implementation{std::move(shape),
         std::move(collisions),
         std::move(characteristic_length),
-	std::move(compare_equality)
-	std::nullopt});
+	      std::nullopt,
+        std::move(compare_equality)});
     return result;
   }
 
@@ -94,14 +94,16 @@ public:
     rmf_utils::impl_ptr<const Shape> shape,
     CollisionGeometries collisions,
     double characteristic_length,
-    Eigen::Vector2d offset)
+    Eigen::Vector2d offset,
+    std::function<bool(const Shape& other)> compare_equality)
   {
     FinalShape result;
     result._pimpl = rmf_utils::make_impl<Implementation>(
       Implementation{std::move(shape),
         std::move(collisions),
         std::move(characteristic_length),
-        offset});
+        offset,
+        std::move(compare_equality)});
     return result;
   }
 };
@@ -127,8 +129,8 @@ public:
       FinalShape::Implementation{std::move(shape),
         std::move(collisions),
         characteristic_length,
-        std::move(compare_equality),
-        std::nullopt});
+        std::nullopt,
+        std::move(compare_equality)});
     return result;
   }
 
@@ -136,14 +138,16 @@ public:
     rmf_utils::impl_ptr<const Shape> shape,
     CollisionGeometries collisions,
     double characteristic_length,
-    Eigen::Vector2d offset)
+    Eigen::Vector2d offset,
+    std::function<bool(const Shape& other)> compare_equality)
   {
     FinalConvexShape result;
     result._pimpl = rmf_utils::make_impl<FinalShape::Implementation>(
       FinalShape::Implementation{std::move(shape),
         std::move(collisions),
         characteristic_length,
-        offset});
+        offset,
+        std::move(compare_equality)});
     return result;
   }
 };
