@@ -27,7 +27,7 @@ Headers in any other folders are not installed and are considered private.
 All launch files in the installed `launch` directory are considered part of the public API.
 
 ### API Stability Policy [1.iv]
-
+traffic/pull/1
 `rmf_traffic` will not break public API within a major version number.
 
 ### ABI Stability Policy [1.v]
@@ -94,13 +94,13 @@ This quality declaration has not been externally peer-reviewed and is not regist
 ### Feature Testing [4.i]
 
 Each feature in `rmf_traffic` has corresponding tests which simulate typical usage.
-They are located in the [`test`](https://github.com/open-rmf/rmf_traffic/tree/master/rmf_traffic/test) directory.
+They are located in the [`test`](https://github.com/open-rmf/rmf_traffic/tree/main/rmf_traffic/test) directory.
 New features are required to have tests before being added.
 
 ### Public API Testing [4.ii]
 
 Each part of the public API has tests, and new additions or changes to the public API require tests before being added.
-They are located in the [`test`](https://github.com/open-rmf/rmf_traffic/tree/master/rmf_traffic/test) directory.
+They are located in the [`test`](https://github.com/open-rmf/rmf_traffic/tree/main/rmf_traffic/test) directory.
 
 ### Coverage [4.iii]
 
@@ -126,7 +126,7 @@ Below are the required direct runtime ROS dependencies of `rmf_traffic` and thei
 
 #### rmf_utils
 
-`rmf_utils` is [**Quality Level 4**](https://github.com/open-rmf/rmf_utils/blob/master/rmf_core_utils/QUALITY_DECLARATION.md).
+`rmf_utils` is [**Quality Level 4**](https://github.com/open-rmf/rmf_utils/blob/main/rmf_utils/QUALITY_DECLARATION.md).
 
 ### Optional Direct Runtime ROS Dependencies [5.ii]
 
