@@ -23,13 +23,7 @@ jobs:
           colcon-defaults: |
             {
               "build": {
-                "mixin": ["coverage-gcc", "tsan"]
+                "mixin": ["tsan"]
               }
             }
           colcon-mixin-repository: https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          files: ros_ws/lcov/total_coverage.info
-          flags: tests
-          name: lean_and_mean_codecov_bot
